@@ -1,2 +1,2 @@
-# Friday Nigbt Funkin: Extrapolator Engine
+# Friday Night Funkin: Extrapolator Engine
 Generic fnf engine
