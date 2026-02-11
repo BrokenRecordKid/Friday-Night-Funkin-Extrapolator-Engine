@@ -24,13 +24,13 @@ class ClientPrefs {
 	public static var noteOffset:Int = 0;
 	public static var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
 	public static var ghostTapping:Bool = true;
-	public static var timeBarType:String = 'Time Left';
+	public static var timeBarType:String = 'Time Left & Elapsed';
 	public static var scoreZoom:Bool = true;
 	public static var noReset:Bool = false;
 	public static var healthBarAlpha:Float = 1;
 	public static var controllerMode:Bool = false;
 	public static var hitsoundVolume:Float = 0;
-	public static var pauseMusic:String = 'Tea Time';
+	public static var pauseMusic:String = 'Breakfast';
 	public static var checkForUpdates:Bool = true;
 	public static var comboStacking = true;
 	public static var gameplaySettings:Map<String, Dynamic> = [

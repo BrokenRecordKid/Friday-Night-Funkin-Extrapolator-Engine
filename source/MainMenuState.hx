@@ -7,6 +7,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
+import flixel.util.FlxTimer;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.effects.FlxFlicker;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -50,6 +51,23 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+		var bpm:Float = 102;
+		var zoomAmount:Float = 0.006;
+		var interval:Float = 60 / bpm;
+		var originalZoom:Float = FlxG.camera.zoom;
+		function applyZoom():Void {
+			var targetZoom:Float = originalZoom + zoomAmount;
+			FlxTween.tween(FlxG.camera, { zoom: targetZoom }, 0.1, { ease: FlxEase.linear });
+			var returnTimer:FlxTimer = new FlxTimer();
+			returnTimer.start(0.1, function(timer:FlxTimer) {
+				FlxTween.tween(FlxG.camera, { zoom: originalZoom }, 0.5, { ease: FlxEase.linear });
+			});
+		}
+		var zoomTimer:FlxTimer = new FlxTimer();
+		zoomTimer.start(interval, function(timer:FlxTimer) {
+			applyZoom();
+		}, 0);
+
 		#if MODS_ALLOWED
 		Paths.pushGlobalMods();
 		#end
@@ -131,7 +149,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollowPos, null, 1);
 
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Extrapolator Engine v" + extrapolatorEngineVersion, 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Extrapolator Engine " + extrapolatorEngineVersion, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
