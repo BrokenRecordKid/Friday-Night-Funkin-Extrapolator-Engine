@@ -1,5 +1,11 @@
 # Friday Night Funkin: Extrapolator Engine
-Generic fnf engine
+"The extrapolation of a FNF engine." - Broken Record Kid
+
+Extrapolator Engine is essentially a generic Psych Engine fork, which is a modder-friendly version of Friday Night Funkin. (until vslice was created) This fork/engine aims to add new features and tweaks to Psych Engine 0.6.3, and ultimately make the engine more... something?
+
+# Work In Progress Update / To Do List
+My current priority for this engine is:
+* Improved Chart Editor (possible haxeUI support/switches)
 
 ## Installation (taken from psych 0.6.3's description):
 You must have [the most up-to-date version of Haxe](https://haxe.org/download/), seriously, stop using 4.1.5, it misses some stuff.
@@ -39,3 +45,10 @@ otherwise, you can delete the "VIDEOS_ALLOWED" Line on Project.xml
 * Smokey - Sprite Atlas Support
 * Nebula the Zorua - LUA JIT Fork and some Lua reworks
 _____________________________________
+
+# Regarding Current and Upcoming FNF Updates
+I will not be modding/porting the current and upcoming FNF updates, since this fork runs on a early build of FNF. (Psych 0.6.3, FNF 0.2.8)
+
+If you want to port the weeks/updates yourself, go ahead. I may incorporate some of V-Slice's features, but this doesn't mean I will be porting the newer updates.
+
+Also btw V-Slice and Codename are the all time goats at FNF modding engines.
