@@ -60,6 +60,7 @@ import StageData;
 import FunkinLua;
 import DialogueBoxPsych;
 import Conductor.Rating;
+import objects.*;
 
 #if !flash 
 import flixel.addons.display.FlxRuntimeShader;
@@ -325,6 +326,11 @@ class PlayState extends MusicBeatState
 	public static var lastCombo:FlxSprite;
 	// stores the last combo score objects in an array
 	public static var lastScore:Array<FlxSprite> = [];
+
+	// Psych Engine DS Variables
+	public var skipSongBlurb:Bool = false;
+	var songBlurbStuff:CoolSongBlurb = null;
+	var blurbTimer:FlxTimer;
 
 	override public function create()
 	{
@@ -1041,6 +1047,7 @@ class PlayState extends MusicBeatState
 		{
 			timeTxt.text = SONG.song;
 		}
+
 		updateTime = showTime;
 
 		timeBarBG = new AttachedSprite('timeBar');
@@ -2066,6 +2073,37 @@ class PlayState extends MusicBeatState
 	public var countdownSet:FlxSprite;
 	public var countdownGo:FlxSprite;
 	public static var startOnTime:Float = 0;
+
+	function leCoolSongName()
+	{
+		var name:String = SONG.song;
+
+		var songName:String = Paths.formatToSongPath(SONG.song);
+		var compFile:String;
+
+		#if MODS_ALLOWED
+		if (FileSystem.exists(Paths.modFolders('data/' + songName + '/Composer.txt')))
+			compFile = Paths.modFolders('data/' + songName + '/Composer.txt');
+		else
+			compFile = Paths.txt(songName + '/Composer');
+		#else
+		compFile = Paths.txt(songName + '/Composer');
+		#end
+		
+		var compName:Array<String> = CoolUtil.coolTextFile(compFile);
+
+		var composer:String = compName[0];
+
+		songBlurbStuff = new CoolSongBlurb(name, composer);
+		add(songBlurbStuff);
+		songBlurbStuff.cameras = [camOther];
+		songBlurbStuff.tweenIn();
+
+		blurbTimer = new FlxTimer().start(5, function(tmr:FlxTimer)
+		{
+			songBlurbStuff.tweenOut();
+		});
+	}
 
 	function cacheCountdown()
 	{
@@ -3119,10 +3157,9 @@ class PlayState extends MusicBeatState
 
 					var songCalc:Float = (songLength - curTime);
 
-					if(ClientPrefs.timeBarType == 'Time Elapsed') songCalc = curTime;
+					if(ClientPrefs.timeBarType == 'Time Left & Elapsed') timeTxt.text = curTime + " - " + (songLength - curTime);
 
-					if(ClientPrefs.timeBarType == 'Time Left & Elapsed') 
-						timeTxt.text = curTime + " - " + (songLength - curTime);
+					if(ClientPrefs.timeBarType == 'Time Elapsed') songCalc = curTime;
 
 					var secondsTotal:Int = Math.floor(songCalc / 1000);
 					if(secondsTotal < 0) secondsTotal = 0;
@@ -4223,6 +4260,8 @@ class PlayState extends MusicBeatState
 
 		var daLoop:Int = 0;
 		var xThing:Float = 0;
+		var yThing:Float = 0;
+
 		if (showCombo)
 		{
 			insert(members.indexOf(strumLineNotes), comboSpr);
@@ -4286,6 +4325,8 @@ class PlayState extends MusicBeatState
 			if(numScore.x > xThing) xThing = numScore.x;
 		}
 		comboSpr.x = xThing + 50;
+		comboSpr.y = yThing - 11;
+
 		/*
 			trace(combo);
 			trace(seperatedScore);
@@ -4294,6 +4335,19 @@ class PlayState extends MusicBeatState
 		coolText.text = Std.string(seperatedScore);
 		// add(coolText);
 
+		rating.scale.x *= 1.2;
+		rating.scale.y *= 1.2;
+		FlxTween.tween(rating.scale, {x: rating.scale.x / 1.2, y: rating.scale.y / 1.2}, 0.2, {
+			onComplete: function(twn:FlxTween) {
+			}
+		});
+		comboSpr.scale.x *= 1.2;
+		comboSpr.scale.y *= 1.2;
+		FlxTween.tween(comboSpr.scale, {x: comboSpr.scale.x / 1.2, y: comboSpr.scale.y / 1.2}, 0.2, {
+			onComplete: function(twn:FlxTween) {
+			}
+		});
+
 		FlxTween.tween(rating, {alpha: 0}, 0.2 / playbackRate, {
 			startDelay: Conductor.crochet * 0.001 / playbackRate
 		});
@@ -4301,15 +4355,14 @@ class PlayState extends MusicBeatState
 		FlxTween.tween(comboSpr, {alpha: 0}, 0.2 / playbackRate, {
 			onComplete: function(tween:FlxTween)
 			{
-				coolText.destroy();
 				comboSpr.destroy();
-
 				rating.destroy();
+				coolText.destroy();
+
 			},
-			startDelay: Conductor.crochet * 0.002 / playbackRate
+			startDelay: Conductor.crochet * 0.001 / playbackRate
 		});
 	}
-
 	public var strumsBlocked:Array<Bool> = [];
 	private function onKeyPress(event:KeyboardEvent):Void
 	{
