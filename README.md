@@ -12,7 +12,7 @@ You must have [the most up-to-date version of Haxe](https://haxe.org/download/),
 
 Follow a Friday Night Funkin' source code compilation tutorial, after this you will need to install LuaJIT.
 
-To install LuaJIT do this: `haxelib git linc_luajit https://github.com/nebulazorua/linc_luajit` on a Command prompt/PowerShell
+To install LuaJIT do this: `haxelib git linc_luaji  t https://github.com/nebulazorua/linc_luajit` on a Command prompt/PowerShell
 
 ...Or if you don't want your mod to be able to run .lua scripts, delete the "LUA_ALLOWED" line on Project.xml
 
@@ -28,6 +28,10 @@ otherwise, you can delete the "VIDEOS_ALLOWED" Line on Project.xml
 ## Extrapolator Engine Credits:
 * Broken Record Kid - Programmer/Owner
 
+## Special Thanks:
+* Elizm on Gamebanana - Botplay & Prctice Sprites
+** https://gamebanana.com/tools/10914
+* Dsfan2 - Inspiraton (and some code snippets)
 
 ### Psych Engine Credits:
 * Shadow Mario - Programmer

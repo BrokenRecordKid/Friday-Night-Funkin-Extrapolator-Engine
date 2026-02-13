@@ -157,6 +157,7 @@ class ChartingState extends MusicBeatState
 	var currentSongName:String;
 
 	var zoomTxt:FlxText;
+	var check_mustHitSection:FlxUICheckBox;
 
 	var zoomList:Array<Float> = [
 		0.25,
@@ -240,7 +241,7 @@ class ChartingState extends MusicBeatState
 		ignoreWarnings = FlxG.save.data.ignoreWarnings;
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.scrollFactor.set();
-		bg.color = 0xFF222222;
+		bg.color = 0x0066CC;
 		add(bg);
 
 		gridLayer = new FlxTypedGroup<FlxSprite>();
@@ -323,6 +324,10 @@ class ChartingState extends MusicBeatState
 		dummyArrow = new FlxSprite().makeGraphic(GRID_SIZE, GRID_SIZE);
 		add(dummyArrow);
 
+		check_mustHitSection = new FlxUICheckBox(10, 850, null, null, "Must hit section", 100);
+		check_mustHitSection.name = 'check_mustHit';
+		check_mustHitSection.checked = _song.notes[curSec].mustHitSection;
+
 		var tabs = [
 			{name: "Song", label: 'Song'},
 			{name: "Section", label: 'Section'},
@@ -380,6 +385,7 @@ class ChartingState extends MusicBeatState
 		add(nextRenderedSustains);
 		add(nextRenderedNotes);
 
+		add(check_mustHitSection);
 		if(lastSong != currentSongName) {
 			changeSection();
 		}
@@ -643,7 +649,6 @@ class ChartingState extends MusicBeatState
 	}
 
 	var stepperBeats:FlxUINumericStepper;
-	var check_mustHitSection:FlxUICheckBox;
 	var check_gfSection:FlxUICheckBox;
 	var check_changeBPM:FlxUICheckBox;
 	var stepperSectionBPM:FlxUINumericStepper;
@@ -657,11 +662,7 @@ class ChartingState extends MusicBeatState
 		var tab_group_section = new FlxUI(null, UI_box);
 		tab_group_section.name = 'Section';
 
-		check_mustHitSection = new FlxUICheckBox(10, 15, null, null, "Must hit section", 100);
-		check_mustHitSection.name = 'check_mustHit';
-		check_mustHitSection.checked = _song.notes[curSec].mustHitSection;
-
-		check_gfSection = new FlxUICheckBox(10, check_mustHitSection.y + 22, null, null, "GF section", 100);
+		check_gfSection = new FlxUICheckBox(10, 37, null, null, "GF section", 100);
 		check_gfSection.name = 'check_gf';
 		check_gfSection.checked = _song.notes[curSec].gfSection;
 		// _song.needsVoices = check_mustHit.checked;
@@ -894,7 +895,7 @@ class ChartingState extends MusicBeatState
 		tab_group_section.add(new FlxText(stepperBeats.x, stepperBeats.y - 15, 0, 'Beats per Section:'));
 		tab_group_section.add(stepperBeats);
 		tab_group_section.add(stepperSectionBPM);
-		tab_group_section.add(check_mustHitSection);
+		// tab_group_section.add(check_mustHitSection);
 		tab_group_section.add(check_gfSection);
 		tab_group_section.add(check_altAnim);
 		tab_group_section.add(check_changeBPM);
