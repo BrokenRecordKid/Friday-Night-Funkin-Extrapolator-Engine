@@ -33,6 +33,8 @@ otherwise, you can delete the "VIDEOS_ALLOWED" Line on Project.xml
 ** https://gamebanana.com/tools/10914
 * Dsfan2 - Inspiraton (and some code snippets)
 
+_____________________________________
+
 ### Psych Engine Credits:
 * Shadow Mario - Programmer
 * RiverOaken - Artist
